@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soal USP Informatika 2026 – SMP Yadika 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent2: #f78166;
+    --accent3: #56d364;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --correct: #1f6327;
+    --wrong: #6e2a2a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--accent); }
+  h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 32px 0;
+  }
+  .progress-bar-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    transition: width 0.4s ease;
+    border-radius: 2px;
+  }
+  .progress-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 32px 80px;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 40px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .q-card:hover { border-color: #444c56; }
+  .q-card.answered-correct { border-color: var(--accent3); background: #0d1f14; }
+  .q-card.answered-wrong { border-color: var(--accent2); background: #1a0f0f; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .q-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .q-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .chip {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .chip-level { background: #1f3a5f; color: var(--accent); border: 1px solid #2d5a8e; }
+  .chip-topic { background: #2d1a3d; color: #c082f0; border: 1px solid #4a2d6e; }
+  .chip-type  { background: #1a2d1f; color: var(--accent3); border: 1px solid #2a4a30; }
+
+  .q-text {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .q-text strong { color: var(--accent); }
+
+  /* OPTIONS */
+  .options { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .option-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 16px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: #2c333b;
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .option-btn.selected-correct {
+    background: var(--correct);
+    border-color: var(--accent3);
+    color: #aaffb8;
+  }
+  .option-btn.selected-wrong {
+    background: var(--wrong);
+    border-color: var(--accent2);
+    color: #ffaaaa;
+  }
+  .option-btn.reveal-correct {
+    background: #152a1e;
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+  .option-btn:disabled { cursor: default; }
+  .opt-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    background: var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .option-btn.selected-correct .opt-key { background: #2a5a35; }
+  .option-btn.selected-wrong   .opt-key { background: #5a2a2a; }
+/* ESSAY */
+  .essay-wrap { margin-top: 14px; }
+  .essay-wrap textarea {
+    width: 100%;
+    min-height: 100px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    padding: 12px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .essay-wrap textarea:focus { border-color: var(--accent); }
+  .essay-wrap textarea::placeholder { color: var(--muted); }
+  .essay-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .kunci-jawaban {
+    background: #0d1f1a;
+    border: 1px solid #2a4a3a;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #7adead;
+    display: none;
+  }
+  .kunci-jawaban strong { color: var(--accent3); }
+  .show-kunci-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'Sora', sans-serif;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .show-kunci-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  /* SCORE */
+  #score-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    margin-top: 40px;
+    display: none;
+  }
+  #score-panel h2 { font-size: 22px; margin-bottom: 8px; }
+  #score-big {
+    font-family: 'Space Mono', monospace;
+    font-size: 56px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+    margin: 16px 0;
+  }
+  #score-sub { color: var(--muted); font-size: 14px; }
+
+  /* SUBMIT BTN */
+  .submit-area {
+    text-align: center;
+    margin-top: 40px;
+  }
+  #submit-btn {
+    background: linear-gradient(135deg, var(--accent), #1f6feb);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 40px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.5px;
+  }
+  #submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  #submit-btn:active { transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    main { padding: 20px 16px 60px; }
+    header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo">SMP Yadika 5 · <span>USP 2025/2026</span></div>
+      <h1>Ujian Satuan Pendidikan — Informatika</h1>
+    </div>
+    <div class="badge" id="time-badge">45 Soal</div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="pbar" style="width:0%"></div></div>
+  <div class="progress-label">
+    <span id="p-answered">0 dijawab</span>
+    <span id="p-total"></span>
+  </div>
+</div>
+
+<main id="quiz-main"></main>
+
+<script>
+const soal = [
+  // ── SISTEM KOMPUTER ─────────────────────────────────────────────
+  {
+    no:1, topik:"Sistem Komputer", level:"L1", tipe:"PG",
+    soal:"Seorang siswa ingin mengukur volume benda tidak beraturan menggunakan gelas ukur. Jika sebelum dimasukkan benda, air berada di angka 50 mL, dan setelah benda dimasukkan air naik menjadi 73 mL, berapakah volume benda tersebut?",
+    opsi:["A. 50 mL","B. 73 mL","C. 23 mL","D. 123 mL"],
+    jawaban:2
+  },
+  {
+    no:2, topik:"Sistem Komputer", level:"L1", tipe:"PG",
+    soal:"Perhatikan pernyataan berikut:\n\"Ketika komputer dimatikan, semua data yang tersimpan di sini akan hilang karena bersifat sementara.\"\nKomponen apakah yang dimaksud pernyataan tersebut?",
+    opsi:["A. Hard Disk Drive (HDD)","B. Random Access Memory (RAM)","C. Read Only Memory (ROM)","D. SSD (Solid State Drive)"],
+    jawaban:1
+  },
+  {
+    no:3, topik:"Sistem Komputer", level:"L2", tipe:"PG",
+    soal:"RAM menyimpan data sementara saat komputer menyala. Salah satu fungsi manajemen sistem operasi terkait RAM adalah…",
+    opsi:["A. Menyimpan data permanen agar tidak hilang","B. Mengalokasikan ruang memori untuk setiap program yang berjalan","C. Menampilkan grafis ke layar monitor","D. Menghubungkan komputer ke jaringan internet"],
+    jawaban:1
+  },
+  {
+    no:4, topik:"Sistem Komputer", level:"L3", tipe:"PG",
+    soal:"Sebuah komputer tiba-tiba mati sendiri (shutdown otomatis) saat menjalankan program berat. Interaksi antar komponen manakah yang paling mungkin memicu kejadian tersebut?",
+    opsi:["A. RAM penuh karena terlalu banyak tab browser","B. CPU terlalu panas sehingga sensor suhu memicu shutdown darurat","C. GPU tidak terhubung ke monitor","D. Hard disk tidak cukup untuk menyimpan file baru"],
+    jawaban:1
+  },
+  {
+    no:5, topik:"Sistem Komputer", level:"L2", tipe:"PG",
+    soal:"Cloud computing berbeda dengan sistem komputer tradisional dalam hal penyimpanan data. Perbedaan utama yang paling tepat adalah…",
+    opsi:["A. Cloud computing tidak membutuhkan koneksi internet","B. Sistem tradisional lebih cepat karena tidak menggunakan jaringan","C. Cloud computing menyimpan data di server jarak jauh yang dapat diakses kapan saja melalui internet","D. Sistem tradisional selalu lebih aman dari cloud computing"],
+    jawaban:2
+  },
+  {
+    no:6, topik:"Sistem Komputer", level:"L3", tipe:"PG",
+    soal:"Mengapa SSD lebih cepat dibandingkan HDD dalam proses membaca dan menulis data?",
+    opsi:["A. SSD memiliki kapasitas lebih besar dari HDD","B. SSD tidak menggunakan piringan berputar, sehingga tidak ada waktu tunda mekanis","C. SSD menggunakan jaringan internet untuk transfer data","D. HDD membutuhkan lebih banyak daya listrik dari SSD"],
+    jawaban:1
+  },
+  {
+    no:7, topik:"Sistem Komputer", level:"L2", tipe:"PG",
+    soal:"Urutan yang benar dalam siklus pemrosesan data oleh CPU adalah…",
+    opsi:["A. Output → Proses → Input → Penyimpanan","B. Input → Proses → Output → Penyimpanan","C. Penyimpanan → Output → Input → Proses","D. Proses → Input → Penyimpanan → Output"],
+    jawaban:1
+  },
+  {
+    no:8, topik:"Sistem Komputer", level:"L3", tipe:"PG",
+    soal:"Komputer dengan RAM 4 GB terasa lambat ketika menjalankan 10 aplikasi sekaligus. Tindakan peningkatan performa yang paling tepat dan efektif adalah…",
+    opsi:["A. Menambah kapasitas hard disk","B. Mengganti monitor dengan resolusi lebih tinggi","C. Menambah kapasitas RAM","D. Menginstall ulang sistem operasi setiap hari"],
+    jawaban:2
+  },
+  {
+    no:9, topik:"Sistem Komputer", level:"L3", tipe:"PG",
+    soal:"Sebuah infografis menunjukkan peningkatan suhu di kota besar akibat banyaknya penggunaan perangkat elektronik dan data center. Dampak utama dari pencemaran panas (heat pollution) terhadap ekosistem sekitar adalah…",
+    opsi:["A. Meningkatnya produktivitas tanaman di sekitar area","B. Gangguan habitat makhluk hidup akibat perubahan suhu lingkungan","C. Bertambahnya populasi ikan di sungai terdekat","D. Penurunan konsumsi energi di wilayah sekitar"],
+    jawaban:1
+  },
+  {
+    no:10, topik:"Sistem Komputer", level:"L2", tipe:"PG",
+    soal:"Di sebuah laboratorium komputer, sering terjadi mati lampu mendadak. Tindakan yang paling tepat untuk mengurangi risiko kerusakan data dan hardware adalah…",
+    opsi:["A. Mematikan komputer lebih awal sebelum jam pulang","B. Memasang UPS (Uninterruptible Power Supply) pada setiap komputer","C. Menggunakan laptop tanpa dicas","D. Menyimpan file hanya di flashdisk"],
+    jawaban:1
+  },
+
+  // ── BERPIKIR KOMPUTASIONAL ───────────────────────────────────────
+  {
+    no:11, topik:"Berpikir Komputasional", level:"L2", tipe:"PG",
+    soal:"Perhatikan ilustrasi berikut: Sebuah tumpukan buku di mana buku yang terakhir diletakkan adalah yang pertama diambil. Struktur data apakah yang sesuai dengan konsep ini (LIFO)?",
+    opsi:["A. Queue (Antrian)","B. Stack (Tumpukan)","C. Tree (Pohon)","D. Linked List"],
+    jawaban:1
+  },
+  {
+    no:12, topik:"Berpikir Komputasional", level:"L2", tipe:"PG",
+    soal:"Perhatikan struktur pohon (tree) berikut:\n• Node A adalah root\n• Node A memiliki anak B dan C\n• Node B memiliki anak D dan E\n\nBerapa jumlah leaf node (node tanpa anak) dalam tree tersebut?",
+    opsi:["A. 1","B. 2","C. 3","D. 4"],
+    jawaban:2
+  },
+  {
+    no:13, topik:"Berpikir Komputasional", level:"L3", tipe:"PG",
+    soal:"Dalam basis data sekolah terdapat tabel SISWA dengan kolom: ID, Nama, Kelas, Nilai.\nPerintah SQL manakah yang benar untuk menampilkan nama siswa dengan nilai di atas 80?",
+    opsi:["A. SELECT Nama FROM SISWA WHERE Nilai > 80","B. GET Nama FROM SISWA IF Nilai > 80","C. SELECT * WHERE Nilai > 80","D. SHOW Nama SISWA Nilai > 80"],
+    jawaban:0
+  },
+
+  // ── TIK ─────────────────────────────────────────────────────────
+  {
+    no:14, topik:"Teknologi Informasi & Komunikasi", level:"L2", tipe:"PG",
+    soal:"Seorang siswa ingin menuliskan persamaan matematika: x² + y² = r² di dalam dokumen Microsoft Word. Fitur yang tepat untuk digunakan adalah…",
+    opsi:["A. Insert → Table","B. Insert → Symbol","C. Insert → Equation","D. Insert → SmartArt"],
+    jawaban:2
+  },
+
+  // ── GERBANG LOGIKA ──────────────────────────────────────────────
+  {
+    no:15, topik:"Gerbang Logika", level:"L3", tipe:"PG",
+    soal:"Sebuah rangkaian memiliki dua input A=1 dan B=0. Jika digunakan gerbang AND dilanjutkan gerbang NOT (NAND), berapakah outputnya?",
+    opsi:["A. 0","B. 1","C. Tidak terdefinisi","D. Bergantung tegangan"],
+    jawaban:1
+  },
+  {
+    no:16, topik:"Gerbang Logika", level:"L1", tipe:"PG",
+    soal:"Gerbang logika OR menghasilkan output 0 (nol) hanya jika…",
+    opsi:["A. Salah satu input bernilai 1","B. Kedua input bernilai 1","C. Kedua input bernilai 0","D. Salah satu input bernilai 0"],
+    jawaban:2
+  },
+  {
+    no:17, topik:"Gerbang Logika", level:"L3", tipe:"PG",
+    soal:"Perhatikan rangkaian: Input A dan B masuk ke gerbang XOR, hasilnya masuk ke gerbang NOT. Jika A=1 dan B=1, berapakah output akhir rangkaian tersebut?",
+    opsi:["A. 0","B. 1","C. 2","D. Tidak terdefinisi"],
+    jawaban:1
+  },
+
+  // ── KEAMANAN DATA & ENKRIPSI ─────────────────────────────────────
+  {
+    no:18, topik:"Keamanan Data & Jaringan", level:"L2", tipe:"PG",
+    soal:"Sebuah pesan dienkripsi menggunakan kode Bacon, di mana setiap huruf diwakili oleh 5 karakter A/B.\nKode AABBA AABBB mewakili dua huruf. Jika A=00001 B, B=00010 B (urutan A=1, B=2, ..., Z=26), huruf apakah yang diwakili AABBA?",
+    opsi:["A. Huruf E","B. Huruf D","C. Huruf F","D. Huruf C"],
+    jawaban:0
+  },
+  {
+    no:19, topik:"Keamanan Data & Jaringan", level:"L2", tipe:"PG",
+    soal:"Metode enkripsi Caesar Cipher menggeser setiap huruf sebanyak 3 posisi ke depan. Jika pesan asli adalah \"INFO\", hasil enkripsinya adalah…",
+    opsi:["A. LQIR","B. FKCK","C. HMNO","D. KNIR"],
+    jawaban:0
+  },
+
+  // ── JARINGAN KOMPUTER & INTERNET ─────────────────────────────────
+  {
+    no:20, topik:"Jaringan Komputer & Internet", level:"L2", tipe:"PG",
+    soal:"Sebuah warnet ingin membangun jaringan yang menghubungkan 20 komputer dalam satu ruangan dengan kecepatan tinggi dan biaya terjangkau. Kombinasi transmisi yang paling efektif adalah…",
+    opsi:["A. Satelit + Fiber Optik","B. Kabel UTP + Switch","C. Bluetooth + NFC","D. 4G LTE + Modem eksternal"],
+    jawaban:1
+  },
+  {
+    no:21, topik:"Jaringan Komputer & Internet", level:"L2", tipe:"PG",
+    soal:"Untuk menghubungkan jaringan antar kantor cabang yang berada di kota berbeda dengan keandalan tinggi, media transmisi yang paling tepat digunakan adalah…",
+    opsi:["A. Kabel UTP","B. Bluetooth","C. Fiber Optik / leased line","D. WiFi dengan router rumahan"],
+    jawaban:2
+  },
+  {
+    no:22, topik:"Jaringan Komputer & Internet", level:"L2", tipe:"ESAI",
+    soal:"Jelaskan perbedaan antara media transmisi kabel (wired) dan nirkabel (wireless) dalam membangun konektivitas internet! Berikan masing-masing satu contoh dan satu kelebihan serta kekurangannya!",
+    kunci:"Kabel (wired): Contoh = kabel UTP/fiber optik. Kelebihan: stabil, cepat, aman. Kekurangan: terbatas mobilitas, perlu instalasi fisik.\nNirkabel (wireless): Contoh = WiFi/4G. Kelebihan: fleksibel, mudah dipasang. Kekurangan: rentan gangguan sinyal, keamanan lebih rendah."
+  },
+  {
+    no:23, topik:"Jaringan Komputer & Internet", level:"L3", tipe:"PG",
+    soal:"Seorang siswa membandingkan kecepatan download: paket data ponsel 2 Mbps vs WiFi 10 Mbps. Jika ia ingin mengunduh file 100 MB, selisih waktu download antara kedua koneksi tersebut adalah…\n(1 MB = 8 Mb)",
+    opsi:["A. 400 detik","B. 320 detik","C. 80 detik","D. 720 detik"],
+    jawaban:1
+  },
+  {
+    no:24, topik:"Jaringan Komputer & Internet", level:"L3", tipe:"PG",
+    soal:"HTTPS berbeda dari HTTP karena menggunakan lapisan keamanan SSL/TLS. Manfaat utama penggunaan HTTPS pada website adalah…",
+    opsi:["A. Website menjadi lebih cepat diakses","B. Data yang dikirim antara pengguna dan server terenkripsi sehingga aman dari penyadapan","C. Gambar di website tampil lebih jernih","D. Tidak diperlukan username dan password untuk login"],
+    jawaban:1
+  },
+  {
+    no:25, topik:"Jaringan Komputer & Internet", level:"L3", tipe:"PG",
+    soal:"Sebuah sekolah ingin membangun jaringan di mana setiap komputer terhubung langsung ke satu titik pusat (switch). Jika satu kabel putus, komputer lain tetap berjalan normal. Topologi apakah yang dimaksud?",
+    opsi:["A. Topologi Ring","B. Topologi Bus","C. Topologi Mesh","D. Topologi Star"],
+    jawaban:3
+  },
+  {
+    no:26, topik:"Jaringan Komputer & Internet", level:"L3", tipe:"PG",
+    soal:"Peran utama router dalam sebuah jaringan komputer adalah…",
+    opsi:["A. Menghubungkan perangkat dalam satu jaringan lokal menggunakan kabel","B. Meneruskan (meneruskan) paket data antar jaringan yang berbeda berdasarkan alamat IP","C. Mengubah sinyal listrik menjadi sinyal optik","D. Menyimpan data cadangan dari semua perangkat"],
+    jawaban:1
+  },
+  {
+    no:27, topik:"Jaringan Komputer & Internet", level:"L3", tipe:"PG",
+    soal:"Perbedaan utama antara jaringan LAN, MAN, dan WAN terletak pada…",
+    opsi:["A. Jenis kabel yang digunakan","B. Jangkauan geografis area yang dicakup","C. Jumlah perangkat yang terhubung","D. Kecepatan transfer data"],
+    jawaban:1
+  },
+  {
+    no:28, topik:"Jaringan Komputer & Internet", level:"L3", tipe:"PG",
+    soal:"Alasan utama migrasi dari IPv4 ke IPv6 adalah…",
+    opsi:["A. IPv6 lebih mudah diingat karena formatnya lebih pendek","B. IPv4 tidak bisa digunakan untuk WiFi","C. Keterbatasan jumlah alamat IP pada IPv4 yang hampir habis seiring bertambahnya perangkat","D. IPv6 lebih murah biaya lisensinya"],
+    jawaban:2
+  },
+
+  // ── ANALISIS DATA ────────────────────────────────────────────────
+  {
+    no:29, topik:"Analisis Data", level:"L3", tipe:"PG",
+    soal:"Hasil survei nilai matematika 5 siswa adalah: 70, 80, 75, 90, 85. Berapakah nilai rata-rata kelima siswa tersebut?",
+    opsi:["A. 78","B. 80","C. 82","D. 85"],
+    jawaban:1
+  },
+  {
+    no:30, topik:"Analisis Data", level:"L1", tipe:"PG",
+    soal:"Diagram garis menunjukkan penjualan toko online dari Januari hingga Juni: 100, 150, 120, 200, 180, 230 unit. Pada bulan apakah penjualan mengalami penurunan pertama kali?",
+    opsi:["A. Februari","B. Maret","C. April","D. Mei"],
+    jawaban:1
+  },
+  {
+    no:31, topik:"Analisis Data", level:"L2", tipe:"PG",
+    soal:"Di Microsoft Excel, fungsi yang digunakan untuk menghitung nilai rata-rata dari sekumpulan data adalah…",
+    opsi:["A. =SUM(A1:A10)","B. =COUNT(A1:A10)","C. =AVERAGE(A1:A10)","D. =MAX(A1:A10)"],
+    jawaban:2
+  },
+  {
+    no:32, topik:"Analisis Data", level:"L3", tipe:"PG",
+    soal:"Sebuah survei preferensi olahraga menunjukkan: Sepak bola 40%, Basket 25%, Renang 20%, Lainnya 15%. Jika total responden 200 orang, berapa orang yang memilih Basket?",
+    opsi:["A. 25 orang","B. 40 orang","C. 50 orang","D. 80 orang"],
+    jawaban:2
+  },
+  {
+    no:33, topik:"Analisis Data", level:"L2", tipe:"PG",
+    soal:"Sebuah aplikasi menghasilkan data nilai siswa: 65, 70, 80, 75, 90. Formula Excel yang tepat untuk mencari nilai tertinggi adalah…",
+    opsi:["A. =SUM(A1:A5)","B. =MAX(A1:A5)","C. =AVERAGE(A1:A5)","D. =MIN(A1:A5)"],
+    jawaban:1
+  },
+  {
+    no:34, topik:"Analisis Data", level:"L2", tipe:"PG",
+    soal:"Perhatikan tabel Excel berikut:\n| A | B |\n|---|---|\n| Nilai | Keterangan |\n| 85 | ? |\n\nFormula =IF(A2>=75,\"Lulus\",\"Tidak Lulus\") akan menghasilkan…",
+    opsi:["A. Tidak Lulus","B. Lulus","C. Error","D. 75"],
+    jawaban:1
+  },
+  {
+    no:35, topik:"Analisis Data", level:"L2", tipe:"PG",
+    soal:"Dalam pemrograman, struktur IF-THEN-ELSE digunakan untuk…",
+    opsi:["A. Mengulang perintah sebanyak n kali","B. Mengambil keputusan berdasarkan kondisi yang diperiksa","C. Menyimpan kumpulan data dalam array","D. Menghubungkan dua jaringan komputer"],
+    jawaban:1
+  },
+  {
+    no:36, topik:"Analisis Data", level:"L3", tipe:"PG",
+    soal:"Algoritma greedy digunakan untuk mencari solusi optimal dengan cara…",
+    opsi:["A. Mencoba semua kemungkinan lalu memilih yang terbaik","B. Mengambil pilihan terbaik pada setiap langkah tanpa mempertimbangkan langkah berikutnya","C. Mengulang proses dari awal jika hasilnya salah","D. Menyimpan semua hasil sementara sebelum memilih solusi"],
+    jawaban:1
+  },
+
+  // ── ALGORITMA & PEMROGRAMAN ──────────────────────────────────────
+  {
+    no:37, topik:"Algoritma & Pemrograman", level:"L3", tipe:"PG",
+    soal:"Algoritma Binary Search digunakan untuk mencari data dalam array yang sudah terurut. Keunggulan Binary Search dibanding Linear Search adalah…",
+    opsi:["A. Binary Search bisa digunakan pada data tidak terurut","B. Binary Search lebih cepat karena membagi data menjadi dua bagian di setiap langkah","C. Binary Search tidak membutuhkan komputer","D. Binary Search selalu menemukan data di posisi pertama"],
+    jawaban:1
+  },
+  {
+    no:38, topik:"Algoritma & Pemrograman", level:"L3", tipe:"ESAI",
+    soal:"Perhatikan pseudocode berikut:\n\ni = 1\nSELAMA i <= 5:\n    CETAK i * 2\n    i = i + 1\n\nTuliskan output yang dihasilkan oleh pseudocode tersebut! Jelaskan juga bagaimana struktur pengulangan (loop) bekerja dalam kasus ini!",
+    kunci:"Output: 2, 4, 6, 8, 10\nPenjelasan: Loop dimulai dengan i=1, selama i≤5 loop berjalan. Setiap iterasi mencetak i×2 lalu menambah i dengan 1. Loop berhenti saat i=6 (i>5)."
+  },
+  {
+    no:39, topik:"Algoritma & Pemrograman", level:"L2", tipe:"PG",
+    soal:"Sebuah program mencetak angka 1 sampai 10 menggunakan perulangan FOR. Berapa kali tubuh loop (body) dieksekusi?",
+    opsi:["A. 9 kali","B. 10 kali","C. 11 kali","D. 1 kali"],
+    jawaban:1
+  },
+
+  // ── DAMPAK SOSIAL – KEJAHATAN SIBER ─────────────────────────────
+  {
+    no:40, topik:"Dampak Sosial Informatika", level:"L2", tipe:"PG",
+    soal:"Jenis kejahatan siber di mana seseorang berpura-pura menjadi pihak terpercaya untuk mencuri informasi pribadi (seperti password atau data kartu kredit) disebut…",
+    opsi:["A. Malware","B. Phishing","C. Ransomware","D. DDoS Attack"],
+    jawaban:1
+  },
+  {
+    no:41, topik:"Dampak Sosial Informatika", level:"L2", tipe:"URAIAN",
+    soal:"Serangan KRACK (Key Reinstallation Attack) adalah celah keamanan pada protokol WPA2 yang digunakan jaringan WiFi.\n\nJelaskan:\na) Apa yang dimaksud dengan serangan KRACK?\nb) Bagaimana cara melindungi perangkat dari serangan ini?",
+    kunci:"a) KRACK adalah serangan yang mengeksploitasi kelemahan protokol WPA2 dengan cara memaksa korban menginstal ulang kunci enkripsi, sehingga penyerang dapat mendekripsi dan mengintip lalu lintas data WiFi korban.\nb) Cara perlindungan: update firmware/OS perangkat secara rutin, gunakan koneksi HTTPS, gunakan VPN, dan hindari jaringan WiFi publik untuk data sensitif."
+  },
+  {
+    no:42, topik:"Dampak Sosial Informatika", level:"L3", tipe:"URAIAN",
+    soal:"Seorang siswa menjadi korban cyberbullying di media sosial, lalu tanpa pikir panjang ia membalas dengan meretas akun pelaku.\n\nAnalisis kasus tersebut:\na) Identifikasi dua bentuk kejahatan siber yang terjadi!\nb) Jelaskan dampak negatif dari masing-masing tindakan tersebut!\nc) Apa tindakan yang seharusnya dilakukan korban?",
+    kunci:"a) Cyberbullying (pelaku awal) dan Hacking/unauthorized access (tindakan balasan korban).\nb) Cyberbullying: trauma psikologis, gangguan mental. Hacking: melanggar UU ITE, bisa dipidana.\nc) Tindakan tepat: dokumentasikan bukti, blokir pelaku, lapor ke orang tua/guru/platform media sosial, jika perlu lapor ke pihak berwajib."
+  },
+
+  // ── DAMPAK SOSIAL – ETIKA DIGITAL ───────────────────────────────
+  {
+    no:43, topik:"Etika Digital", level:"L2", tipe:"URAIAN",
+    soal:"Jelaskan tiga jenis kejahatan siber yang sering terjadi di ruang digital beserta masing-masing satu contoh nyata (tidak perlu menyebut nama korban spesifik)!",
+    kunci:"1. Phishing: email palsu mengatasnamakan bank meminta data login.\n2. Ransomware: virus mengenkripsi file dan meminta tebusan.\n3. Identity theft: mencuri KTP digital untuk membuat pinjaman online ilegal."
+  },
+  {
+    no:44, topik:"Etika Digital", level:"L2", tipe:"URAIAN",
+    soal:"Seorang content creator ingin membuat konten media digital yang baik. Sebutkan dan jelaskan minimal tiga aspek penting yang harus diperhatikan dalam membuat konten digital yang bertanggung jawab!",
+    kunci:"1. Orisinalitas: konten tidak menjiplak karya orang lain, bebas plagiarisme.\n2. Akurasi: informasi yang disampaikan benar dan dapat diverifikasi, bukan hoaks.\n3. Etika: tidak mengandung unsur SARA, hate speech, atau konten yang merugikan orang lain.\n(Bonus: hak cipta – mencantumkan sumber jika menggunakan karya orang lain)"
+  },
+  {
+    no:45, topik:"Etika Digital", level:"L3", tipe:"URAIAN",
+    soal:"Netiket (network etiquette) adalah tata krama dalam berkomunikasi di dunia digital. Seorang siswa mengirim pesan ke grup kelas menggunakan HURUF KAPITAL SEMUA dan bahasa kasar.\n\nAnalisis situasi tersebut:\na) Apa pelanggaran netiket yang dilakukan?\nb) Mengapa penting menjaga netiket di media digital?\nc) Tuliskan dua contoh netiket yang baik dalam berkomunikasi online!",
+    kunci:"a) Menulis dengan huruf kapital semua dianggap BERTERIAK, ditambah penggunaan bahasa kasar yang tidak sopan.\nb) Penting karena komunikasi digital memengaruhi reputasi, menghormati perasaan orang lain, dan menjaga lingkungan digital yang sehat.\nc) Contoh netiket baik: menggunakan salam pembuka dan penutup, tidak menyebarkan informasi pribadi orang lain tanpa izin."
+  }
+];
+
+// ── COUNT PG FOR SCORING ──────────────────────────────────────────
+const pgSoal = soal.filter(s => s.tipe === "PG");
+const essaiSoal = soal.filter(s => s.tipe !== "PG");
+const answers = {};
+let answeredCount = 0;
+
+function updateProgress() {
+  const total = soal.length;
+  answeredCount = Object.keys(answers).length;
+  const pct = Math.round((answeredCount / total) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('p-answered').textContent = answeredCount + ' dijawab';
+  document.getElementById('p-total').textContent = pct + '%';
+}
+
+// ── GROUP BY TOPIC ────────────────────────────────────────────────
+const topikGroups = {};
+soal.forEach(s => {
+  if (!topikGroups[s.topik]) topikGroups[s.topik] = [];
+  topikGroups[s.topik].push(s);
+});
+
+// ── RENDER ────────────────────────────────────────────────────────
+const main = document.getElementById('quiz-main');
+document.getElementById('p-total').textContent = soal.length + ' soal';
+
+Object.entries(topikGroups).forEach(([topik, items]) => {
+  const secTitle = document.createElement('div');
+  secTitle.className = 'section-title';
+  secTitle.textContent = topik;
+  main.appendChild(secTitle);
+
+  items.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'card-' + s.no;
+
+    const chipType = s.tipe === 'PG' ? 'PG' : s.tipe;
+
+    card.innerHTML = `
+      <div class="q-header">
+        <div class="q-num">No. ${s.no}</div>
+        <div>
+          <div class="q-meta">
+            <span class="chip chip-level">${s.level}</span>
+            <span class="chip chip-topic">${s.topik}</span>
+            <span class="chip chip-type">${chipType}</span>
+          </div>
+          <div class="q-text">${s.soal.replace(/\n/g,'<br>')}</div>
+        </div>
+      </div>
+    `;
+
+    if (s.tipe === 'PG') {
+      const optDiv = document.createElement('div');
+      optDiv.className = 'options';
+      s.opsi.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="opt-key">${String.fromCharCode(65+idx)}</span>${opt.slice(3)}`;
+        btn.addEventListener('click', () => {
+          if (answers[s.no] !== undefined) return;
+          answers[s.no] = idx;
+          updateProgress();
+          const correct = s.jawaban;
+          optDiv.querySelectorAll('.option-btn').forEach((b, i) => {
+            b.disabled = true;
+            if (i === correct) b.classList.add(idx === correct ? 'selected-correct' : 'reveal-correct');
+            if (i === idx && idx !== correct) b.classList.add('selected-wrong');
+          });
+          card.classList.add(idx === correct ? 'answered-correct' : 'answered-wrong');
+        });
+        optDiv.appendChild(btn);
+      });
+      card.appendChild(optDiv);
+    } else {
+      // ESAI / URAIAN
+      const wrap = document.createElement('div');
+      wrap.className = 'essay-wrap';
+      wrap.innerHTML = `
+        <textarea placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+        <div class="essay-hint">✏️ Soal ${s.tipe === 'ESAI' ? 'Esai' : 'Uraian'} – tulis jawaban selengkap mungkin</div>
+        <button class="show-kunci-btn" onclick="toggleKunci(this)">Lihat Kunci Jawaban</button>
+        <div class="kunci-jawaban"><strong>Kunci Jawaban:</strong><br>${s.kunci.replace(/\n/g,'<br>')}</div>
+      `;
+      const ta = wrap.querySelector('textarea');
+      ta.addEventListener('input', () => {
+        if (!answers[s.no] && ta.value.trim().length > 0) {
+          answers[s.no] = ta.value;
+          updateProgress();
+        }
+      });
+      card.appendChild(wrap);
+    }
+
+    main.appendChild(card);
+  });
+});
+
+function toggleKunci(btn) {
+  const kunci = btn.nextElementSibling;
+  if (kunci.style.display === 'block') {
+    kunci.style.display = 'none';
+    btn.textContent = 'Lihat Kunci Jawaban';
+  } else {
+    kunci.style.display = 'block';
+    btn.textContent = 'Sembunyikan Kunci';
+  }
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────────
+const submitArea = document.createElement('div');
+submitArea.className = 'submit-area';
+submitArea.innerHTML = `<button id="submit-btn" onclick="submitQuiz()">Lihat Hasil Nilai PG</button>`;
+main.appendChild(submitArea);
+
+const scorePanel = document.createElement('div');
+scorePanel.id = 'score-panel';
+scorePanel.innerHTML = `
+  <h2>Hasil Nilai Pilihan Ganda</h2>
+  <div id="score-big"></div>
+  <div id="score-sub"></div>
+`;
+main.appendChild(scorePanel);
+
+function submitQuiz() {
+  let benar = 0;
+  pgSoal.forEach(s => {
+    if (answers[s.no] === s.jawaban) benar++;
+  });
+  const total = pgSoal.length;
+  const pct = Math.round((benar / total) * 100);
+  document.getElementById('score-big').textContent = pct + ' / 100';
+  document.getElementById('score-sub').textContent =
+    `Benar ${benar} dari ${total} soal PG  ·  Soal esai/uraian dinilai manual oleh guru`;
+  document.getElementById('score-panel').style.display = 'block';
+  document.getElementById('score-panel').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
